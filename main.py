@@ -1,11 +1,12 @@
 import streamlit as st
 import nltk
-from nltk import NaiveBayesClassifier
 from joblib import load
 import time
 
+# Download names if not already present
 nltk.download('names')
 
+# Feature extractor
 def extract_gender_features(name):
     name = name.lower()
     features = {
@@ -23,11 +24,13 @@ def extract_gender_features(name):
     }
     return features
 
+# Load trained model
 bayes = load('gender_prediction.joblib')
 
 def main():
     st.set_page_config(page_title="Hello Kitty Gender Predictor Supreme 💖", page_icon="🎀", layout="centered")
 
+    # CSS for kawaii effects
     st.markdown("""
         <style>
         body {
@@ -75,29 +78,40 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    st.image("https://i.imgur.com/5uQ9aO2.png", use_column_width=True)
+    # ✅ Working Hello Kitty image
+    st.image(
+        "https://upload.wikimedia.org/wikipedia/en/0/05/Hello_Kitty_character_portrait.png",
+        use_column_width=True
+    )
 
+    # Title + subtitle
     st.markdown("<h1>🎀😸 Hello Kitty Gender Predictor SUPREME 😸🎀</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align:center;font-size:20px;'>✨ Enter your cutest name and see the kawaii magic unfold! ✨</p>", unsafe_allow_html=True)
 
-    with st.container():
-        with st.container():
-            st.markdown('<div class="card">', unsafe_allow_html=True)
-            input_name = st.text_input('🌸 Your Cute Name 🌸', placeholder="e.g., Kitty, Melody, Daniel")
-            if st.button('🎀 Predict Now 🎀'):
-                if input_name.strip() != '':
-                    features = extract_gender_features(input_name)
-                    predicted_gender = bayes.classify(features)
+    # Card for input/output
+    st.markdown('<div class="card">', unsafe_allow_html=True)
 
-                    # cute effects
-                    st.balloons()
-                    st.snow()
-                    time.sleep(0.5)
-                    st.success(f'🎀 The predicted gender for **"{input_name}"** is: 🌸 **{predicted_gender.capitalize()}** 🌸')
-                else:
-                    st.warning('🌸 Please enter a cute name 🌸')
-            st.markdown('</div>', unsafe_allow_html=True)
+    # Input field
+    input_name = st.text_input('🌸 Your Cute Name 🌸', placeholder="e.g., Kitty, Melody, Daniel")
 
+    if st.button('🎀 Predict Now 🎀'):
+        if input_name.strip() != '':
+            # Predict
+            features = extract_gender_features(input_name)
+            predicted_gender = bayes.classify(features)
+
+            # Effects
+            st.balloons()
+            st.snow()
+            time.sleep(0.5)
+
+            st.success(f'🎀 The predicted gender for **"{input_name}"** is: 🌸 **{predicted_gender.capitalize()}** 🌸')
+        else:
+            st.warning('🌸 Please enter a cute name 🌸')
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Footer
     st.markdown("""
         <div class="footer">
         ✨ Made with 💖 by Hello Kitty Fans Club ✨<br>
