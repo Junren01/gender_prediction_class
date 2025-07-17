@@ -3,10 +3,8 @@ import nltk
 from joblib import load
 import time
 
-# Download names if not already present
 nltk.download('names')
 
-# Feature extractor
 def extract_gender_features(name):
     name = name.lower()
     features = {
@@ -24,50 +22,56 @@ def extract_gender_features(name):
     }
     return features
 
-# Load trained model
 bayes = load('gender_prediction.joblib')
 
 def main():
-    st.set_page_config(page_title="Hello Kitty Gender Predictor Supreme 💖", page_icon="🎀", layout="centered")
+    st.set_page_config(page_title="Hello Kitty Gender Predictor KAWKAW 🌸✨", page_icon="🎀", layout="centered")
 
-    # CSS for kawaii effects
     st.markdown("""
         <style>
         body {
-            background: linear-gradient(-45deg, #ffe6f2, #ffd1dc, #ffe6f2, #ffd1dc);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            background: linear-gradient(270deg, #ffd1dc, #ffe6f2, #ffd1dc, #ffe6f2);
+            background-size: 800% 800%;
+            animation: rainbowBG 12s ease infinite;
         }
-        @keyframes gradientBG {
+        @keyframes rainbowBG {
             0% {background-position: 0% 50%;}
             50% {background-position: 100% 50%;}
             100% {background-position: 0% 50%;}
         }
-        .main {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            color: #ff3399;
+        h1 {
             text-align: center;
+            font-size: 3em;
+            color: #ff66b3;
+            animation: blink 1.5s infinite alternate;
+        }
+        @keyframes blink {
+            from {opacity: 1;}
+            to {opacity: 0.6;}
         }
         .card {
-            background-color: rgba(255, 240, 245, 0.9);
+            background-color: rgba(255, 240, 245, 0.95);
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0px 0px 20px #ff99cc;
+            box-shadow: 0px 0px 30px #ff99cc;
             margin: 20px auto;
             max-width: 500px;
+            text-align: center;
+            font-size: 18px;
         }
         .stButton>button {
-            background: linear-gradient(90deg, #ff99cc, #ff66b3);
+            background: linear-gradient(90deg, #ff99cc, #ff66b3, #ff99cc);
             color: white;
-            font-size: 18px;
+            font-size: 20px;
             border-radius: 12px;
-            padding: 0.5em 2em;
+            padding: 0.6em 2em;
             border: 2px solid #ff66b3;
-            transition: all 0.3s ease;
+            box-shadow: 0 0 10px #ff99cc;
+            animation: glow 2s infinite alternate;
         }
-        .stButton>button:hover {
-            transform: scale(1.1);
-            background: linear-gradient(90deg, #ff66b3, #ff99cc);
+        @keyframes glow {
+            from {box-shadow: 0 0 10px #ff99cc;}
+            to {box-shadow: 0 0 20px #ff66b3;}
         }
         .footer {
             font-size: 16px;
@@ -78,44 +82,36 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    # ✅ Working Hello Kitty image
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/en/0/05/Hello_Kitty_character_portrait.png",
-        use_column_width=True
-    )
+    st.markdown("<h1>🎀🌸 HELLO KITTY GENDER PREDICTOR 🌸🎀</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;font-size:20px;'>✨🌈 Enter your cutest name and see the kawaii magic explode! 💖✨</p>", unsafe_allow_html=True)
 
-    # Title + subtitle
-    st.markdown("<h1>🎀😸 Hello Kitty Gender Predictor SUPREME 😸🎀</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;font-size:20px;'>✨ Enter your cutest name and see the kawaii magic unfold! ✨</p>", unsafe_allow_html=True)
-
-    # Card for input/output
     st.markdown('<div class="card">', unsafe_allow_html=True)
 
-    # Input field
-    input_name = st.text_input('🌸 Your Cute Name 🌸', placeholder="e.g., Kitty, Melody, Daniel")
+    input_name = st.text_input('🌸 Your Magical Name 🌸', placeholder="e.g., Kitty, Melody, Daniel")
 
-    if st.button('🎀 Predict Now 🎀'):
+    if st.button('🎀 Predict My Destiny 🎀'):
         if input_name.strip() != '':
-            # Predict
             features = extract_gender_features(input_name)
             predicted_gender = bayes.classify(features)
 
-            # Effects
+            # KAWKAW EFFECTS 🎉
             st.balloons()
             st.snow()
-            time.sleep(0.5)
+            time.sleep(0.3)
 
-            st.success(f'🎀 The predicted gender for **"{input_name}"** is: 🌸 **{predicted_gender.capitalize()}** 🌸')
+            st.markdown(f"""
+            <div style="font-size:22px;color:#ff3399;">
+            🎉✨🌸 The predicted gender for <b>{input_name}</b> is: <b>{predicted_gender.capitalize()}</b> 🌸✨🎉
+            </div>
+            """, unsafe_allow_html=True)
         else:
-            st.warning('🌸 Please enter a cute name 🌸')
+            st.warning('💖 Please enter your magical name 💖')
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Footer
     st.markdown("""
         <div class="footer">
-        ✨ Made with 💖 by Hello Kitty Fans Club ✨<br>
-        🌸 Stay kawaii & spread cuteness everywhere! 🌸
+        🌸✨ Made with infinite kawaii sparkles ✨🌸
         </div>
     """, unsafe_allow_html=True)
 
